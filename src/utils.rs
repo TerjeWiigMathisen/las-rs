@@ -22,15 +22,13 @@ pub fn some_or_none_if_zero<T: Zero>(n: T) -> Option<T> {
 impl<'a> AsLasStr for &'a [u8] {
     fn as_las_str(&self) -> Result<&str> {
         let s = if let Some(position) = self.iter().position(|c| *c == 0) {
-            if cfg!(feature = "permissive") {
+            #[cfg(permissive)]
+            str::from_utf8(&self[0..position])?
+            #[cfg(not(permissive))]
+            if self[position..].iter().any(|c| *c != 0) {
+                return Err(Error::NotZeroFilled(self.to_vec()));
+            } else {
                 str::from_utf8(&self[0..position])?
-            }
-            else {
-                if self[position..].iter().any(|c| *c != 0) {
-                    return Err(Error::NotZeroFilled(self.to_vec()));
-                } else {
-                    str::from_utf8(&self[0..position])?
-                }
             }
         } else {
             str::from_utf8(self)?
