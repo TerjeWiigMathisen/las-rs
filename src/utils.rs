@@ -23,11 +23,13 @@ impl<'a> AsLasStr for &'a [u8] {
     fn as_las_str(&self) -> Result<&str> {
         let mut pos:usize = self.len();
         if let Some(position) = self.iter().position(|c| *c == 0) {
+/*
             if !cfg!(permissive) {
                 if self[position..].iter().any(|c| *c != 0) {
                     return Err(Error::NotZeroFilled(self.to_vec()));
                 }
             }
+*/
             pos = position;
         }
         let s = str::from_utf8(&self[0..pos])?;
