@@ -23,13 +23,12 @@ impl<'a> AsLasStr for &'a [u8] {
     fn as_las_str(&self) -> Result<&str> {
         let mut pos:usize = self.len();
         if let Some(position) = self.iter().position(|c| *c == 0) {
-/*
-            if !cfg!(permissive) {
+            #[cfg(not(feature = "permissive"))] 
+            {
                 if self[position..].iter().any(|c| *c != 0) {
                     return Err(Error::NotZeroFilled(self.to_vec()));
                 }
             }
-*/
             pos = position;
         }
         let s = str::from_utf8(&self[0..pos])?;
@@ -81,7 +80,10 @@ mod tests {
 
     #[test]
     fn to_not_nul_filled() {
+        #[cfg(not(feature = "permissive"))] 
         let bytes = [60, 0, 60];
+        #[cfg(feature = "permissive")] 
+        let bytes = [60, 0, 0];
         assert!(bytes.as_ref().as_las_str().is_err());
     }
 

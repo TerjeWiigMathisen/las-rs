@@ -72,6 +72,22 @@ macro_rules! features {
     }
 }
 
+#[cfg(feature = "permissive")]
+features! {
+    /// Does the header allow a file source id, or is that field reserved?
+    FileSourceId(1, 2, 3, 4);
+    /// Is there a bit flag to set the type of time value in each point?
+    GpsStandardTime(1, 2, 3, 4);
+    /// Does this file support waveforms?
+    Waveforms(3, 4);
+    /// Is there a bit flag to indicate synthetic return numbers?
+    SyntheticReturnNumbers(3, 4);
+    /// Does this file support 64-bit point counts?
+    LargeFiles(4);
+    /// Does this file support extended variable length records?
+    Evlrs(4);
+}
+#[cfg(not(feature = "permissive"))]
 features! {
     /// Does the header allow a file source id, or is that field reserved?
     FileSourceId(1, 2, 3, 4);

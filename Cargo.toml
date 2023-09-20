@@ -29,5 +29,5 @@ name = "roundtrip"
 harness = false
 
 [features]
-default = ["permissive"]
+default = ["laz","permissive"]
 permissive = []
