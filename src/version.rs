@@ -191,6 +191,9 @@ mod tests {
     }
 
     version!(las_1_0, 1, 0, [false; 5], 1);
+    #[cfg(feature = "permissive")]
+    version!(las_1_1, 1, 1, [true, true, false, false, false], 1);
+    #[cfg(not(feature = "permissive"))]
     version!(las_1_1, 1, 1, [true, false, false, false, false], 1);
     version!(las_1_2, 1, 2, [true, true, false, false, false], 3);
     version!(las_1_3, 1, 3, [true, true, true, false, false], 5);

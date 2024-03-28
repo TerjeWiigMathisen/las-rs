@@ -80,11 +80,11 @@ mod tests {
 
     #[test]
     fn to_not_nul_filled() {
-        #[cfg(not(feature = "permissive"))] 
         let bytes = [60, 0, 60];
-        #[cfg(feature = "permissive")] 
-        let bytes = [60, 0, 0];
+        #[cfg(not(feature = "permissive"))] 
         assert!(bytes.as_ref().as_las_str().is_err());
+        #[cfg(feature = "permissive")] 
+        assert!(!bytes.as_ref().as_las_str().is_err());
     }
 
     #[test]
