@@ -159,31 +159,6 @@ impl Header {
         Builder::new(raw_header).and_then(|b| b.into_header())
     }
 
-    /// Sets the scaling for the x, y, and z coordinates.
-    ///
-    /// # Arguments
-    ///
-    /// * `xs` - Scaling factor for the x coordinate.
-    /// * `ys` - Scaling factor for the y coordinate.
-    /// * `zs` - Scaling factor for the z coordinate.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use las::Builder;
-    /// let mut header = Builder::new(Default::default()).unwrap();
-    /// header.setscaling(0.01, 0.01, 0.01);
-    /// ```
-    /// This will scale the x, y, and z coordinates by 0.01 and update the iscale values.
-    ///
-    /// Returns `true` if successful.
-    pub fn setscaling(&mut self, xs: f64, ys: f64, zs: f64) -> bool {
-        self.transforms.x.setscale(xs);
-        self.transforms.y.setscale(ys);
-        self.transforms.z.setscale(zs);
-        true
-    }
-
     /// Clears this header's point counts and bounds.
     ///
     /// # Examples

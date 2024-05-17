@@ -52,6 +52,13 @@ impl Transform {
             Ok(n as i32)
         }
     }
+
+    /// Updates a scaling value
+    /// ```
+    /// use las::Transform;
+    /// header_builder.transform.x.setscale(0.01);
+    /// ```
+    /// returns true if successful
     pub fn setscale(&mut self, scale:f64) -> bool {
         self.scale = scale;
         self.iscale = 1.0 / scale;
