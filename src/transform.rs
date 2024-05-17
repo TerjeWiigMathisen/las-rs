@@ -8,6 +8,7 @@ pub struct Transform {
     pub scale: f64,
     /// The offset.
     pub offset: f64,
+    /// Inverse of the scale value, so we can use FMUL instead of FDIV when writing LAS files
     pub iscale: f64,
 }
 
