@@ -130,14 +130,17 @@ impl Builder {
                 x: Transform {
                     scale: raw_header.x_scale_factor,
                     offset: raw_header.x_offset,
+                    iscale: 1.0 / raw_header.x_scale_factor,
                 },
                 y: Transform {
                     scale: raw_header.y_scale_factor,
                     offset: raw_header.y_offset,
+                    iscale: 1.0 / raw_header.y_scale_factor,
                 },
                 z: Transform {
                     scale: raw_header.z_scale_factor,
                     offset: raw_header.z_offset,
+                    iscale: 1.0 / raw_header.z_scale_factor,
                 },
             },
             version: raw_header.version,
@@ -158,6 +161,31 @@ impl Builder {
             number_of_points,
             number_of_points_by_return,
         })
+    }
+
+    /// Sets the scaling for the x, y, and z coordinates.
+    ///
+    /// # Arguments
+    ///
+    /// * `xs` - Scaling factor for the x coordinate.
+    /// * `ys` - Scaling factor for the y coordinate.
+    /// * `zs` - Scaling factor for the z coordinate.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use las::Builder;
+    /// let mut header = Builder::new(Default::default()).unwrap();
+    /// header.setscaling(0.01, 0.01, 0.01);
+    /// ```
+    /// This will scale the x, y, and z coordinates by 0.01 and update the iscale values.
+    ///
+    /// Returns `true` if successful.
+    pub fn setscaling(&mut self, xs: f64, ys: f64, zs: f64) -> bool {
+        self.transforms.x.setscale(xs);
+        self.transforms.y.setscale(ys);
+        self.transforms.z.setscale(zs);
+        true
     }
 
     /// Converts this builder into a `Header`.

@@ -8,6 +8,7 @@ pub struct Transform {
     pub scale: f64,
     /// The offset.
     pub offset: f64,
+    pub iscale: f64,
 }
 
 impl Transform {
@@ -39,7 +40,9 @@ impl Transform {
         use std::i32;
         use crate::Error;
 
-        let n = ((n - self.offset) / self.scale).round();
+        assert!(self.iscale != 0.0);
+//        let n = ((n - self.offset) / self.scale).round();
+        let n = ((n - self.offset) * self.iscale).round();
         if n > f64::from(i32::MAX) || n < f64::from(i32::MIN) {
             Err(Error::InverseTransform {
                 n,
@@ -49,6 +52,12 @@ impl Transform {
             Ok(n as i32)
         }
     }
+    pub fn setscale(&mut self, scale:f64) -> bool {
+        self.scale = scale;
+        self.iscale = 1.0 / scale;
+        true
+    }
+
 }
 
 impl Default for Transform {
@@ -56,6 +65,7 @@ impl Default for Transform {
         Transform {
             scale: 0.001,
             offset: 0.,
+            iscale: 1.0 / 0.001,
         }
     }
 }
